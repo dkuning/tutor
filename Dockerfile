@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Установка рабочей директории
-WORKDIR /app_tutorbot
+WORKDIR /app
 
 # Копируем requirements и устанавливаем зависимости
 COPY requirements.txt .
