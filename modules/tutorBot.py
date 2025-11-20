@@ -5,7 +5,7 @@ import logging
 from dotenv import load_dotenv
 import study
 from datetime import datetime
-from modules.storage import init_db, add_payment_request, get_active_payment_requests, update_payment_status, get_subject, get_tutor, get_schedule_for_student, get_payment_by_id
+from storage import init_db, add_payment_request, get_active_payment_requests, update_payment_status, get_subject, get_tutor, get_schedule_for_student, get_payment_by_id
 
 # Загружаем переменные из .env
 load_dotenv()

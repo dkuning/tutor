@@ -1,4 +1,4 @@
-from modules.storage import get_schedule_for_student, get_tutor
+from storage import get_schedule_for_student, get_tutor
 
 
 def get_tutor_info(tutor_id):
