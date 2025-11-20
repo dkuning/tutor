@@ -1,6 +1,5 @@
 import sqlite3
 import os
-from datetime import datetime
 
 # Путь к базе данных
 DB_PATH = 'database/tutor_bot.db'
