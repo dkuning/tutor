@@ -9,7 +9,7 @@ services:
       - .env
     volumes:
       # Сохраняем базу данных
-      - ./database/tutor_bot.db:/app/database/tutor_bot.db
+      - ./database:/app/database
       # Сохраняем логи
       - ./logs:/app/logs
     logging:
