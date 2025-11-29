@@ -187,6 +187,21 @@ def get_active_payment_requests():
         columns = ['id', 'date', 'user_id', 'username', 'first_name', 'subject', 'tutor_id', 'price', 'status']
         return [dict(zip(columns, row)) for row in rows]
 
+def get_all_payment_requests():
+    """Возвращает все платежи (все статусы)"""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT pr.id, pr.date, pr.user_id, pr.username, pr.first_name, 
+                   sub.name as subject, pr.tutor_id, pr.price, pr.status
+            FROM payment_requests pr
+            JOIN subjects sub ON pr.subject_id = sub.subject_id
+            ORDER BY pr.date DESC
+        ''')
+        rows = cursor.fetchall()
+        columns = ['id', 'date', 'user_id', 'username', 'first_name', 'subject', 'tutor_id', 'price', 'status']
+        return [dict(zip(columns, row)) for row in rows]
+
 def update_payment_status(payment_id, status):
     """Обновляет статус платежа"""
     with sqlite3.connect(DB_PATH) as conn:

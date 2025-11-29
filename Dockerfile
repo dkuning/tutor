@@ -15,9 +15,3 @@ COPY . .
 # (но в volume они и так будут сохраняться)
 RUN mkdir -p logs
 RUN mkdir -p database
-
-# Убедимся, что скрипт исполняемый
-RUN chmod +x modules/tutorBot.py
-
-# Запуск бота
-CMD ["python", "modules/tutorBot.py"]

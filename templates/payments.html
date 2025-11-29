@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Журнал оплат</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <header>
+        <h1>Журнал оплат</h1>
+        <h2>Все платежные запросы</h2>
+    </header>
+
+    <main>
+        <div class="payments-container" id="table-container">
+            {% if payments %}
+            <table class="payments-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Дата</th>
+                        <th>Ученик</th>
+                        <th>Предмет</th>
+                        <th>Репетитор</th>
+                        <th>Сумма (₽)</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in payments %}
+                    <tr>
+                        <td>{{ p.id }}</td>
+                        <td class="payment-date" data-timestamp="{{ p.date }}">{{ p.date }}</td>
+                        <td>{{ p.username }}</td>
+                        <td>{{ p.subject }}</td>
+                        <td>{{ p.tutor_id }}</td>
+                        <td>{{ p.price }}</td>
+                        <td>{{ p.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Нет записей о платежах.</p>
+            {% endif %}
+        </div>
+
+        <form method="GET" action="/" class="logout-form">
+            <button type="submit">← Назад</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Родители, мне нужен новый пони! &copy; <span id="year"></span></p>
+    </footer>
+
+    <script>
+        // Установка года в футер
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Форматирование даты: "2025-11-20 17:50:11" → "20.11.2025"
+        document.querySelectorAll('.payment-date').forEach(cell => {
+            const datetime = cell.getAttribute('data-timestamp');
+            if (!datetime) return;
+
+            // Разбиваем строку
+            const [datePart] = datetime.split(' '); // "2025-11-20"
+            const [year, month, day] = datePart.split('-');
+
+            // Форматируем: DD.MM.YYYY
+            const formatted = `${day}.${month}.${year}`;
+            cell.textContent = formatted;
+        });
+    </script>
+</body>
+</html>
