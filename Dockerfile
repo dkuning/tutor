@@ -15,3 +15,5 @@ COPY . .
 # (но в volume они и так будут сохраняться)
 RUN mkdir -p logs
 RUN mkdir -p database
+
+EXPOSE 5000
