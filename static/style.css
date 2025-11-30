@@ -1,0 +1,204 @@
+/* static/style.css */
+:root {
+    --gray: #f0f0f0;
+    --dark-gray: #333;
+    --coral: #1976d2;        /* Темно-синий основной (material dark blue) */
+    --light-coral: #42a5f5;   /* Светло-синий для hover (material light blue)*/
+    --text: #333;
+    --border: #ccc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--gray);
+    color: var(--text);
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 10px;
+}
+
+header {
+    background-color: var(--coral);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+main {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+main p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--coral);
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
+}
+
+button {
+    background-color: var(--coral);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--light-coral);
+}
+
+.result-box {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    font-family: 'Courier New', monospace;
+    text-align: left;
+    white-space: pre-line;
+    color: var(--dark-gray);
+}
+
+.logout-form {
+    margin-top: 30px;
+}
+
+.logout-form button {
+    background-color: #999;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+.logout-form button:hover {
+    background-color: #777;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .logout-form button {
+        width: 100%;
+    }
+}
+
+.error-message {
+    margin-top: 16px;
+    color: #d32f2f;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    min-height: 20px;
+}
+
+/* Контейнер для таблицы с прокруткой */
+.payments-container {
+    overflow-x: auto;
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payments-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background-color: white;
+}
+
+.payments-table thead {
+    background-color: var(--coral);
+    color: white;
+}
+
+.payments-table th,
+.payments-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.payments-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.payments-table td:first-child,
+.payments-table th:first-child {
+    text-align: center;
+    width: 50px;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оплати за моего репитора </title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <header>
+        <h1>Сервис "Оплати моего репетитора"</h1>
+        <h2>Интерфейс администратора</h2>
+    </header>
+
+    <main>
+        <p>Здесь будет функционал администратора сервиса</p>
+
+        <!-- Кнопка перехода к журналу оплат -->
+        <form method="GET" action="/payments" class="logout-form">
+            <button type="submit">Журнал оплат</button>
+        </form>
+
+        <!-- Кнопка выхода -->
+        <form method="POST" action="/logout" class="logout-form">
+            <button type="submit">Выйти</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>Родители, мне нужен новый пони!  &copy; <span id="year"></span></p>
+    </footer>
+
+    <script>
+        // Установка года в футер
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Обработка выхода
+        document.querySelector("form[action='/logout']").addEventListener('submit', function (e) {
+            e.preventDefault();
+            fetch('/logout', { method: 'POST' })
+                .then(() => (window.location.href = '/login'));
+        });
+    </script>
+</body>
+</html>

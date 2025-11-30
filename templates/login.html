@@ -1,0 +1,64 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Сервис "Оплати за моего репетитора"</h1>
+        <h2>Интерфейс администратора</h2>
+    </header>
+
+    <main>
+        <h2>Введите OTP-токен</h2>
+        <p>Для доступа к сервису введите 6-значный код из приложения-аутентификатора.</p>
+
+        <!-- Форма ввода OTP -->
+        <form method="POST" action="/auth" id="authForm">
+            <label for="otp">OTP-код:</label>
+            <input type="text" id="otp" name="otp" maxlength="6" placeholder="123456" required />
+            <button type="submit">Войти</button>
+        </form>
+
+        <!-- Отображение ошибки (если есть) -->
+        <div id="error" class="error-message"></div>
+    </main>
+
+    <footer>
+        <p>Родители, мне нужен новый пони! &copy; <span id="year"></span></p>
+    </footer>
+
+    <script>
+        // Установка года в футер
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Обработка формы аутентификации
+        document.getElementById('authForm').addEventListener('submit', function (e) {
+            const otp = document.getElementById('otp').value.trim();
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            if (!/^\d{6}$/.test(otp)) {
+                e.preventDefault();
+                errorDiv.textContent = 'Введите 6 цифр';
+                return;
+            }
+        });
+
+        // Показать ошибку, если сервер вернул параметр ?error
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            document.getElementById('error').textContent =
+                error === 'invalid' ? 'Неверный OTP-код' :
+                error === 'expired' ? 'Код устарел' : 'Ошибка авторизации';
+        }
+    </script>
+</body>
+</html>
