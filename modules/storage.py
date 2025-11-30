@@ -192,14 +192,14 @@ def get_all_payment_requests():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT pr.id, pr.date, pr.user_id, pr.username, pr.first_name, 
-                   sub.name as subject, pr.tutor_id, pr.price, pr.status
+            SELECT pr.id, pr.date, pr.user_id, pr.username, pr.first_name, sub.name as subject, tu.name, pr.price, pr.status
             FROM payment_requests pr
             JOIN subjects sub ON pr.subject_id = sub.subject_id
+            JOIN tutors tu ON tu.tutor_id = pr.tutor_id
             ORDER BY pr.date DESC
         ''')
         rows = cursor.fetchall()
-        columns = ['id', 'date', 'user_id', 'username', 'first_name', 'subject', 'tutor_id', 'price', 'status']
+        columns = ['id', 'date', 'user_id', 'username', 'first_name', 'subject', 'tutor_name', 'price', 'status']
         return [dict(zip(columns, row)) for row in rows]
 
 def update_payment_status(payment_id, status):
