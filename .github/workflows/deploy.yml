@@ -35,7 +35,7 @@ jobs:
             # Останавливаем и удаляем старые контейнеры
             docker compose down
             # Пересобираем образы
-            docker compose build --no-cache web bot
+            docker compose build --no-cache
             # Поднимаем сервисы
             docker compose up -d
             # Очищаем мусор (опционально)

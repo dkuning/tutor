@@ -10,9 +10,7 @@ services:
       - .env
     command: python modules/tutorBot.py
     volumes:
-      # Сохраняем базу данных
       - ./database:/app/database
-      # Сохраняем логи
       - ./logs:/app/logs
     logging:
       driver: "json-file"
@@ -31,6 +29,7 @@ services:
     expose:
       - "5000"
     volumes:
+      - ./database:/app/database
       - ./logs:/app/logs
     logging:
       driver: "json-file"
