@@ -12,6 +12,17 @@ def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
 
+        # Таблица студентов
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                phone TEXT,
+                tg_id INTEGER UNIQUE,
+                vk_id INTEGER UNIQUE
+            )
+        ''')
+
         # Таблица репетиторов
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS tutors (
@@ -101,6 +112,27 @@ def _insert_schedule_batch(cursor, data):
         )
 
 # === Запросы к БД ===
+def get_student_by_vkid(id):
+    """Получает студента по VK_ID"""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name, phone, tg_id, vk_id FROM students WHERE vk_id = ?", (id,))
+        row = cursor.fetchone()
+        if row:
+            cols = ['id', 'name', 'phone', 'tg_id', 'vk_id']
+            return dict(zip(cols, row))
+        return {'id': '', 'name': '', 'phone': '', 'tg_id': '', 'vk_id': ''}
+
+def get_student_by_tgid(id):
+    """Получает студента по TG_ID"""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name, phone, tg_id, vk_id FROM students WHERE tg_id = ?", (id,))
+        row = cursor.fetchone()
+        if row:
+            cols = ['id', 'name', 'phone', 'tg_id', 'vk_id']
+            return dict(zip(cols, row))
+        return {'id': '', 'name': '', 'phone': '', 'tg_id': '', 'vk_id': ''}
 
 def get_tutor(tutor_id):
     """Получает репетитора по ID"""
@@ -124,13 +156,24 @@ def get_subject(subject_id):
             return dict(zip(cols, row))
         return None
 
+def get_schedule(id):
+    """Получает элемент расписания по ID"""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, student_id, subject_id, tutor_id, price FROM schedule WHERE id = ?", (id,))
+        row = cursor.fetchone()
+        if row:
+            cols = ['id', 'student_id', 'subject_id', 'tutor_id', 'price']
+            return dict(zip(cols, row))
+        return None
+
 def get_schedule_for_student(student_id):
     """Получает расписание студента: предмет, репетитор, цена"""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         # Сначала индивидуальные предметы
         cursor.execute('''
-            SELECT s.subject_id, sub.name, s.tutor_id, s.price
+            SELECT s.subject_id, sub.name, s.tutor_id, s.price, s.id
             FROM schedule s
             JOIN subjects sub ON s.subject_id = sub.subject_id
             WHERE s.student_id = ?
@@ -138,18 +181,19 @@ def get_schedule_for_student(student_id):
         ''', (student_id,))
         rows = cursor.fetchall()
         if rows:
-            return [dict(zip(['subject_id', 'name', 'tutor_id', 'price'], r)) for r in rows]
+            return [dict(zip(['subject_id', 'name', 'tutor_id', 'price', 'schedule_id'], r)) for r in rows]
 
         # Или дефолтное
         cursor.execute('''
-            SELECT s.subject_id, sub.name, s.tutor_id, s.price
+            SELECT s.subject_id, sub.name, s.tutor_id, s.price, s.id
             FROM schedule s
             JOIN subjects sub ON s.subject_id = sub.subject_id
             WHERE s.student_id IS NULL
             ORDER BY sub.name
         ''')
         rows = cursor.fetchall()
-        return [dict(zip(['subject_id', 'name', 'tutor_id', 'price'], r)) for r in rows]
+        print(f"get_schedule_for_student (default) - {rows}")
+        return [dict(zip(['subject_id', 'name', 'tutor_id', 'price', 'schedule_id'], r)) for r in rows]
 
 def add_payment_request(payment_event):
     """Добавляет новый запрос на оплату"""
