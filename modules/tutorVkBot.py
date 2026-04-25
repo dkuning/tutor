@@ -1,5 +1,3 @@
-# modules/tutorVkBot.py
-
 import os
 import logging
 from datetime import datetime
@@ -7,18 +5,16 @@ from datetime import datetime
 from dotenv import load_dotenv
 from vkbottle import Callback, GroupEventType, GroupTypes, ShowSnackbarEvent
 from vkbottle.bot import Bot, Message as BotMessage
-from vkbottle.tools import Keyboard, Text, KeyboardButtonColor, EMPTY_KEYBOARD
-from vkbottle.tools.formatting import Format
+from vkbottle.tools import Keyboard, Text, KeyboardButtonColor
 
 from storage import init_db, get_student_by_vkid, get_schedule_for_student, get_schedule, get_subject,add_payment_request,get_payment_by_id,get_active_payment_requests,get_tutor,update_payment_status,get_student_by_tgid
 from study import command_list_of_study
 import json
 
-
 load_dotenv()
 
 # --- Настройка логирования ---
-LOG_DIR = '../logs'
+LOG_DIR = './logs'
 os.makedirs(LOG_DIR, exist_ok=True)
 LOG_FILE = os.path.join(LOG_DIR, 'tutorVkBot.log')
 
